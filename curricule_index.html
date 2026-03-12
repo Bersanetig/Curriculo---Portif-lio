@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CurrículeIA — Seu currículo em minutos</title>
+  <link rel="stylesheet" href="curricule_style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <div id="tela-quiz" class="tela ativa">
+    <div class="quiz-bg">
+      <div class="quiz-blob blob1"></div>
+      <div class="quiz-blob blob2"></div>
+    </div>
+    <header class="quiz-header">
+      <div class="logo-mark">Curricule<span>IA</span></div>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="step-counter" id="step-counter">1 / 7</div>
+    </header>
+    <main class="quiz-main">
+      <div class="quiz-card" id="quiz-card">
+        <div class="passo ativo" data-step="1">
+          <span class="passo-numero">01</span>
+          <h2>Qual é o seu <em>nome completo</em>?</h2>
+          <input class="quiz-input" type="text" id="q-nome" placeholder="Ex: Ana Carolina Silva" autocomplete="off" />
+        </div>
+        <div class="passo" data-step="2">
+          <span class="passo-numero">02</span>
+          <h2>Qual é a sua <em>área de atuação</em>?</h2>
+          <input class="quiz-input" type="text" id="q-area" placeholder="Ex: Tecnologia, Marketing, Design..." autocomplete="off" />
+          <input class="quiz-input quiz-input-sub" type="text" id="q-cargo" placeholder="Cargo atual ou desejado — Ex: Dev Frontend" autocomplete="off" />
+        </div>
+        <div class="passo" data-step="3">
+          <span class="passo-numero">03</span>
+          <h2>Como as empresas podem <em>te encontrar</em>?</h2>
+          <input class="quiz-input" type="email" id="q-email" placeholder="Seu e-mail profissional" autocomplete="off" />
+          <input class="quiz-input quiz-input-sub" type="text" id="q-telefone" placeholder="Telefone com DDD — Ex: (11) 99999-9999" autocomplete="off" />
+          <input class="quiz-input quiz-input-sub" type="text" id="q-cidade" placeholder="Cidade e Estado — Ex: São Paulo, SP" autocomplete="off" />
+        </div>
+        <div class="passo" data-step="4">
+          <span class="passo-numero">04</span>
+          <h2>Conte sua <em>experiência profissional</em>.</h2>
+          <p class="passo-hint">Descreva em poucas palavras. A IA vai organizar tudo.</p>
+          <textarea class="quiz-textarea" id="q-experiencia" placeholder="Ex: Trabalhei 3 anos como desenvolvedor na Empresa X, onde criei sistemas web e APIs. Antes fui estagiário na Empresa Y por 1 ano..." rows="5"></textarea>
+        </div>
+        <div class="passo" data-step="5">
+          <span class="passo-numero">05</span>
+          <h2>Qual é a sua <em>formação acadêmica</em>?</h2>
+          <textarea class="quiz-textarea" id="q-formacao" placeholder="Ex: Bacharel em Ciência da Computação pela USP (2019-2023). Técnico em Informática pelo SENAI..." rows="4"></textarea>
+        </div>
+        <div class="passo" data-step="6">
+          <span class="passo-numero">06</span>
+          <h2>Quais são suas principais <em>habilidades e idiomas</em>?</h2>
+          <textarea class="quiz-textarea" id="q-habilidades" placeholder="Ex: JavaScript, React, Python, SQL, Inglês fluente, Espanhol intermediário, liderança, metodologias ágeis..." rows="4"></textarea>
+        </div>
+        <div class="passo" data-step="7">
+          <span class="passo-numero">07</span>
+          <h2>O que te torna um candidato <em>especial</em>?</h2>
+          <p class="passo-hint">Conquistas, projetos, certificações, objetivos… pode ser breve.</p>
+          <textarea class="quiz-textarea" id="q-diferencial" placeholder="Ex: Liderei migração que reduziu custos em 40%. Tenho certificação AWS. Busco atuar em startups de impacto social..." rows="4"></textarea>
+        </div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn-quiz-back" id="btn-back" onclick="passoAnterior()">← Voltar</button>
+        <button class="btn-quiz-next" id="btn-next" onclick="proximoPasso()">Continuar →</button>
+        <button class="btn-quiz-generate" id="btn-generate" onclick="gerarCurriculo()">✨ Gerar meu Currículo</button>
+      </div>
+    </main>
+  </div>
+
+  <div id="tela-loading" class="tela">
+    <div class="loading-wrap">
+      <div class="loading-orb"></div>
+      <h2 class="loading-titulo">Criando seu currículo<span class="dots"></span></h2>
+      <p class="loading-sub" id="loading-msg">Analisando suas informações…</p>
+    </div>
+  </div>
+
+  <div id="tela-resultado" class="tela">
+    <header class="resultado-header">
+      <div class="logo-mark small">Curricule<span>IA</span></div>
+      <div class="resultado-actions">
+        <button class="btn-refazer" onclick="voltarQuiz()">← Refazer</button>
+        <button class="btn-imprimir" onclick="imprimirCV()">⬇ Baixar PDF</button>
+      </div>
+    </header>
+    <div class="resultado-layout">
+      <aside class="editor-panel">
+        <h3 class="editor-titulo">✏️ Ajuste seu currículo</h3>
+        <p class="editor-hint">Edite qualquer campo abaixo — o CV atualiza em tempo real</p>
+        <div class="editor-grupo"><label>Nome</label><input type="text" id="e-nome" oninput="sincronizar('nome', this.value)" /></div>
+        <div class="editor-grupo"><label>Cargo / Título</label><input type="text" id="e-cargo" oninput="sincronizar('cargo', this.value)" /></div>
+        <div class="editor-grupo"><label>E-mail</label><input type="text" id="e-email" oninput="sincronizar('email', this.value)" /></div>
+        <div class="editor-grupo"><label>Telefone</label><input type="text" id="e-telefone" oninput="sincronizar('telefone', this.value)" /></div>
+        <div class="editor-grupo"><label>Cidade</label><input type="text" id="e-cidade" oninput="sincronizar('cidade', this.value)" /></div>
+        <div class="editor-divider"></div>
+        <div class="editor-grupo"><label>Resumo Profissional</label><textarea id="e-resumo" rows="5" oninput="sincronizar('resumo', this.value)"></textarea></div>
+        <div class="editor-grupo"><label>Experiência</label><textarea id="e-experiencia" rows="7" oninput="sincronizar('experiencia', this.value)"></textarea></div>
+        <div class="editor-grupo"><label>Formação</label><textarea id="e-formacao" rows="4" oninput="sincronizar('formacao', this.value)"></textarea></div>
+        <div class="editor-grupo"><label>Habilidades (separadas por vírgula)</label><input type="text" id="e-habilidades" oninput="sincronizar('habilidades', this.value)" /></div>
+        <div class="editor-grupo"><label>Idiomas (separados por vírgula)</label><input type="text" id="e-idiomas" oninput="sincronizar('idiomas', this.value)" /></div>
+      </aside>
+      <main class="cv-preview-wrap">
+        <div class="preview-label">Pré-visualização</div>
+        <div class="cv-page" id="cv-page">
+          <div class="cv-topo">
+            <div class="cv-topo-info">
+              <h1 class="cv-nome" id="cv-nome">—</h1>
+              <p class="cv-cargo" id="cv-cargo">—</p>
+            </div>
+            <div class="cv-contato" id="cv-contato"></div>
+          </div>
+          <div class="cv-linha"></div>
+          <div class="cv-secao" id="cv-sec-resumo"><h2 class="cv-sec-titulo">Resumo</h2><p class="cv-texto" id="cv-resumo-txt"></p></div>
+          <div class="cv-secao" id="cv-sec-exp"><h2 class="cv-sec-titulo">Experiência</h2><div class="cv-texto pre" id="cv-exp-txt"></div></div>
+          <div class="cv-secao" id="cv-sec-form"><h2 class="cv-sec-titulo">Formação</h2><div class="cv-texto pre" id="cv-form-txt"></div></div>
+          <div class="cv-secao" id="cv-sec-hab"><h2 class="cv-sec-titulo">Habilidades</h2><div class="cv-tags" id="cv-hab-tags"></div></div>
+          <div class="cv-secao" id="cv-sec-idi"><h2 class="cv-sec-titulo">Idiomas</h2><div class="cv-tags" id="cv-idi-tags"></div></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="curricule_script.js"></script>
+</body>
+</html>
