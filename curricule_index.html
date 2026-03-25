@@ -1,130 +1,254 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CurrículeIA — Seu currículo em minutos</title>
-  <link rel="stylesheet" href="curricule_style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="curricule_style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
-  <div id="tela-quiz" class="tela ativa">
-    <div class="quiz-bg">
-      <div class="quiz-blob blob1"></div>
-      <div class="quiz-blob blob2"></div>
+<!-- HOME -->
+<div id="tela-home" class="tela ativa">
+  <div class="bg-grid"></div>
+  <div class="bg-glow g1"></div>
+  <div class="bg-glow g2"></div>
+  <header class="nav">
+    <div class="logo">Curricule<span>IA</span></div>
+  </header>
+  <main class="home-main">
+    <section class="hero">
+      <div class="hero-left">
+        <div class="badge"><span class="badge-dot"></span>Powered by Groq · 100% gratuito</div>
+        <h1>Seu currículo<br/><em>profissional</em><br/>em minutos.</h1>
+        <p class="hero-sub">Preencha um formulário simples e escolha como quer gerar seu currículo — com IA ou por conta própria.</p>
+        <div class="modo-cards">
+          <div class="modo-card" onclick="irParaQuiz('ia')">
+            <div class="modo-icon">✨</div>
+            <div class="modo-info"><h3>Com IA</h3><p>A IA reescreve suas informações com linguagem profissional, verbos de ação e resumo persuasivo.</p></div>
+            <div class="modo-badge ia">Recomendado</div>
+          </div>
+          <div class="modo-card" onclick="irParaQuiz('manual')">
+            <div class="modo-icon">📝</div>
+            <div class="modo-info"><h3>Sem IA</h3><p>Suas respostas são organizadas diretamente no currículo, sem nenhuma alteração no texto.</p></div>
+          </div>
+        </div>
+        <p class="hero-fine">Sem cadastro · Sem cartão · Menos de 5 minutos</p>
+      </div>
+      <div class="hero-right">
+        <div class="mockup">
+          <div class="mockup-bar">
+            <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            <span class="mockup-title">CurrículeIA</span>
+          </div>
+          <div class="mockup-body">
+            <div class="mf anim-1"><span class="mf-label">Nome completo</span><div class="mf-val">Ana Carolina Souza</div></div>
+            <div class="mf anim-2"><span class="mf-label">Cargo</span><div class="mf-val">Dev Frontend Sênior</div></div>
+            <div class="mf anim-3"><span class="mf-label">Experiência</span><div class="mf-val tall">3 anos na Empresa X como dev fullstack...</div></div>
+            <div class="mf anim-4"><span class="mf-label">Habilidades</span><div class="mf-val">React, TypeScript, Node.js...</div></div>
+          </div>
+          <div class="mockup-btn anim-5">✨ Gerar meu currículo</div>
+        </div>
+      </div>
+    </section>
+    <section class="steps-section">
+      <p class="section-eyebrow">Como funciona</p>
+      <div class="steps">
+        <div class="step"><div class="step-n">01</div><div class="step-icon">🎯</div><h3>Escolha o modo</h3><p>Com IA para um currículo reescrito profissionalmente, ou sem IA para manter seu texto original.</p></div>
+        <div class="step-sep">→</div>
+        <div class="step"><div class="step-n">02</div><div class="step-icon">📝</div><h3>Preencha o formulário</h3><p>Responda perguntas rápidas sobre nome, experiência, formação e habilidades.</p></div>
+        <div class="step-sep">→</div>
+        <div class="step"><div class="step-n">03</div><div class="step-icon">✏️</div><h3>Edite e baixe</h3><p>Ajuste qualquer detalhe no editor em tempo real e baixe em PDF.</p></div>
+      </div>
+    </section>
+  </main>
+  <footer class="home-footer">CurrículeIA · Feito com IA</footer>
+</div>
+
+<!-- QUIZ -->
+<div id="tela-quiz" class="tela">
+  <div class="bg-glow g1"></div>
+  <div class="bg-glow g2"></div>
+  <header class="quiz-nav">
+    <button class="btn-voltar" onclick="irParaHome()">← Home</button>
+    <div class="logo">Curricule<span>IA</span></div>
+    <div class="modo-tag" id="modo-tag">✨ Com IA</div>
+    <div class="prog-wrap"><div class="prog-bar" id="prog-bar"></div></div>
+    <div class="prog-num" id="prog-num">1 / 8</div>
+  </header>
+  <main class="quiz-main">
+    <div class="quiz-card">
+      <div class="passo ativo" data-step="1">
+        <span class="p-num">01</span>
+        <h2>Qual é o seu <em>nome completo</em>?</h2>
+        <input class="qi" type="text" id="q-nome" placeholder="Ex: Ana Carolina Silva" autocomplete="off"/>
+      </div>
+      <div class="passo" data-step="2">
+        <span class="p-num">02</span>
+        <h2>Qual é a sua <em>área de atuação</em>?</h2>
+        <input class="qi" type="text" id="q-area" placeholder="Ex: Tecnologia, Marketing, Design..." autocomplete="off"/>
+        <input class="qi qi-sub" type="text" id="q-cargo" placeholder="Cargo atual ou desejado — Ex: Dev Frontend" autocomplete="off"/>
+      </div>
+      <div class="passo" data-step="3">
+        <span class="p-num">03</span>
+        <h2>Como as empresas podem <em>te encontrar</em>?</h2>
+        <input class="qi" type="email" id="q-email" placeholder="Seu e-mail profissional" autocomplete="off"/>
+        <input class="qi qi-sub" type="text" id="q-telefone" placeholder="Telefone — Ex: (11) 99999-9999" autocomplete="off"/>
+        <input class="qi qi-sub" type="text" id="q-cidade" placeholder="Cidade e Estado — Ex: São Paulo, SP" autocomplete="off"/>
+      </div>
+      <div class="passo" data-step="4">
+        <span class="p-num">04</span>
+        <h2>Conte sua <em>experiência profissional</em>.</h2>
+        <p class="p-hint" id="hint-exp">Descreva em poucas palavras. A IA vai organizar tudo.</p>
+        <textarea class="qt" id="q-experiencia" placeholder="Ex: Trabalhei 3 anos como dev na Empresa X. Antes fui estagiário na Empresa Y por 1 ano..." rows="5"></textarea>
+      </div>
+      <div class="passo" data-step="5">
+        <span class="p-num">05</span>
+        <h2>Qual é a sua <em>formação acadêmica</em>?</h2>
+        <textarea class="qt" id="q-formacao" placeholder="Ex: Bacharel em Ciência da Computação pela USP (2019-2023)..." rows="4"></textarea>
+      </div>
+      <div class="passo" data-step="6">
+        <span class="p-num">06</span>
+        <h2>Quais são suas <em>habilidades e idiomas</em>?</h2>
+        <textarea class="qt" id="q-habilidades" placeholder="Ex: JavaScript, React, Python, Inglês fluente, Espanhol intermediário..." rows="4"></textarea>
+      </div>
+      <div class="passo" data-step="7">
+        <span class="p-num">07</span>
+        <h2>O que te torna um candidato <em>especial</em>?</h2>
+        <p class="p-hint">Conquistas, certificações, objetivos… pode ser breve.</p>
+        <textarea class="qt" id="q-diferencial" placeholder="Ex: Liderei migração que reduziu custos em 40%. Certificação AWS..." rows="4"></textarea>
+      </div>
+      <div class="passo" data-step="8">
+        <span class="p-num">08</span>
+        <h2>Deseja adicionar uma <em>foto</em> ao currículo?</h2>
+        <p class="p-hint">Opcional — uma foto profissional pode valorizar seu currículo.</p>
+        <div class="foto-opcoes">
+          <div class="foto-op" id="foto-sim" onclick="mostrarUploadFoto()">
+            <span class="foto-op-icon">📸</span>
+            <span>Sim, quero adicionar</span>
+          </div>
+          <div class="foto-op" id="foto-nao" onclick="pularFoto()">
+            <span class="foto-op-icon">➡️</span>
+            <span>Não, continuar sem foto</span>
+          </div>
+        </div>
+        <div id="upload-foto-wrap" style="display:none">
+          <div class="foto-upload-area" onclick="document.getElementById('input-foto').click()">
+            <input type="file" id="input-foto" accept="image/*" style="display:none" onchange="previewFoto(this)"/>
+            <div id="foto-preview-wrap">
+              <span class="foto-upload-icon">⬆️</span>
+              <p>Clique para selecionar uma foto</p>
+              <span class="foto-upload-hint">JPG, PNG — máx. 5MB</span>
+            </div>
+          </div>
+          <div class="foto-estilo-wrap">
+            <p class="foto-estilo-titulo">Estilo da foto</p>
+            <div class="foto-estilos">
+              <div class="foto-estilo ativo" id="estilo-redonda" onclick="escolherEstilo('redonda')">
+                <div class="estilo-preview redonda"></div>
+                <span>Redonda</span>
+              </div>
+              <div class="foto-estilo" id="estilo-quadrada" onclick="escolherEstilo('quadrada')">
+                <div class="estilo-preview quadrada"></div>
+                <span>Quadrada</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <header class="quiz-header">
-      <div class="logo-mark">Curricule<span>IA</span></div>
-      <div class="progress-wrap">
-        <div class="progress-bar" id="progress-bar"></div>
-      </div>
-      <div class="step-counter" id="step-counter">1 / 7</div>
-    </header>
-    <main class="quiz-main">
-      <div class="quiz-card" id="quiz-card">
-        <div class="passo ativo" data-step="1">
-          <span class="passo-numero">01</span>
-          <h2>Qual é o seu <em>nome completo</em>?</h2>
-          <input class="quiz-input" type="text" id="q-nome" placeholder="Ex: Ana Carolina Silva" autocomplete="off" />
+    <div class="quiz-btns">
+      <button class="btn-back-quiz" id="btn-back" onclick="passoAnterior()">← Voltar</button>
+      <button class="btn-next-quiz" id="btn-next" onclick="proximoPasso()">Continuar →</button>
+      <button class="btn-gen-quiz" id="btn-gen" onclick="gerarCurriculo()">✨ Gerar meu Currículo</button>
+    </div>
+  </main>
+</div>
+
+<!-- LOADING -->
+<div id="tela-loading" class="tela">
+  <div class="loading-box">
+    <div class="loading-ring"></div>
+    <h2>Criando seu currículo<span class="dots"></span></h2>
+    <p id="loading-msg">Analisando suas informações…</p>
+  </div>
+</div>
+
+<!-- RESULTADO -->
+<div id="tela-resultado" class="tela">
+  <header class="res-nav">
+    <div class="logo small">Curricule<span>IA</span></div>
+    <div class="res-actions">
+      <button class="btn-ghost" onclick="voltarQuiz()">← Refazer</button>
+      <button class="btn-testar-ia" id="btn-testar-ia" onclick="testarComIA()" style="display:none">✨ Testar com IA</button>
+      <button class="btn-pdf" onclick="abrirModal()">⬇ Baixar PDF</button>
+    </div>
+  </header>
+  <div class="res-layout">
+    <aside class="editor">
+      <h3>✏️ Ajuste seu currículo</h3>
+      <p class="editor-hint">Edite qualquer campo — o CV atualiza em tempo real</p>
+      <div class="eg"><label>Nome</label><input type="text" id="e-nome" oninput="sync('nome',this.value)"/></div>
+      <div class="eg"><label>Cargo</label><input type="text" id="e-cargo" oninput="sync('cargo',this.value)"/></div>
+      <div class="eg"><label>E-mail</label><input type="text" id="e-email" oninput="sync('email',this.value)"/></div>
+      <div class="eg"><label>Telefone</label><input type="text" id="e-telefone" oninput="sync('telefone',this.value)"/></div>
+      <div class="eg"><label>Cidade</label><input type="text" id="e-cidade" oninput="sync('cidade',this.value)"/></div>
+      <div class="e-div"></div>
+      <div class="eg"><label>Resumo</label><textarea id="e-resumo" rows="5" oninput="sync('resumo',this.value)"></textarea></div>
+      <div class="eg"><label>Experiência</label><textarea id="e-experiencia" rows="7" oninput="sync('experiencia',this.value)"></textarea></div>
+      <div class="eg"><label>Formação</label><textarea id="e-formacao" rows="4" oninput="sync('formacao',this.value)"></textarea></div>
+      <div class="eg"><label>Habilidades (vírgula)</label><input type="text" id="e-habilidades" oninput="sync('habilidades',this.value)"/></div>
+      <div class="eg"><label>Idiomas (vírgula)</label><input type="text" id="e-idiomas" oninput="sync('idiomas',this.value)"/></div>
+    </aside>
+    <main class="cv-wrap">
+      <div class="cv-label">Pré-visualização</div>
+      <div class="cv-page" id="cv-page">
+        <div class="cv-topo">
+          <div class="cv-topo-esq">
+            <img id="cv-foto" class="cv-foto redonda" src="" style="display:none"/>
+            <div><h1 class="cv-nome" id="cv-nome">—</h1><p class="cv-cargo" id="cv-cargo">—</p></div>
+          </div>
+          <div class="cv-contato" id="cv-contato"></div>
         </div>
-        <div class="passo" data-step="2">
-          <span class="passo-numero">02</span>
-          <h2>Qual é a sua <em>área de atuação</em>?</h2>
-          <input class="quiz-input" type="text" id="q-area" placeholder="Ex: Tecnologia, Marketing, Design..." autocomplete="off" />
-          <input class="quiz-input quiz-input-sub" type="text" id="q-cargo" placeholder="Cargo atual ou desejado — Ex: Dev Frontend" autocomplete="off" />
-        </div>
-        <div class="passo" data-step="3">
-          <span class="passo-numero">03</span>
-          <h2>Como as empresas podem <em>te encontrar</em>?</h2>
-          <input class="quiz-input" type="email" id="q-email" placeholder="Seu e-mail profissional" autocomplete="off" />
-          <input class="quiz-input quiz-input-sub" type="text" id="q-telefone" placeholder="Telefone com DDD — Ex: (11) 99999-9999" autocomplete="off" />
-          <input class="quiz-input quiz-input-sub" type="text" id="q-cidade" placeholder="Cidade e Estado — Ex: São Paulo, SP" autocomplete="off" />
-        </div>
-        <div class="passo" data-step="4">
-          <span class="passo-numero">04</span>
-          <h2>Conte sua <em>experiência profissional</em>.</h2>
-          <p class="passo-hint">Descreva em poucas palavras. A IA vai organizar tudo.</p>
-          <textarea class="quiz-textarea" id="q-experiencia" placeholder="Ex: Trabalhei 3 anos como desenvolvedor na Empresa X, onde criei sistemas web e APIs. Antes fui estagiário na Empresa Y por 1 ano..." rows="5"></textarea>
-        </div>
-        <div class="passo" data-step="5">
-          <span class="passo-numero">05</span>
-          <h2>Qual é a sua <em>formação acadêmica</em>?</h2>
-          <textarea class="quiz-textarea" id="q-formacao" placeholder="Ex: Bacharel em Ciência da Computação pela USP (2019-2023). Técnico em Informática pelo SENAI..." rows="4"></textarea>
-        </div>
-        <div class="passo" data-step="6">
-          <span class="passo-numero">06</span>
-          <h2>Quais são suas principais <em>habilidades e idiomas</em>?</h2>
-          <textarea class="quiz-textarea" id="q-habilidades" placeholder="Ex: JavaScript, React, Python, SQL, Inglês fluente, Espanhol intermediário, liderança, metodologias ágeis..." rows="4"></textarea>
-        </div>
-        <div class="passo" data-step="7">
-          <span class="passo-numero">07</span>
-          <h2>O que te torna um candidato <em>especial</em>?</h2>
-          <p class="passo-hint">Conquistas, projetos, certificações, objetivos… pode ser breve.</p>
-          <textarea class="quiz-textarea" id="q-diferencial" placeholder="Ex: Liderei migração que reduziu custos em 40%. Tenho certificação AWS. Busco atuar em startups de impacto social..." rows="4"></textarea>
-        </div>
-      </div>
-      <div class="quiz-nav">
-        <button class="btn-quiz-back" id="btn-back" onclick="passoAnterior()">← Voltar</button>
-        <button class="btn-quiz-next" id="btn-next" onclick="proximoPasso()">Continuar →</button>
-        <button class="btn-quiz-generate" id="btn-generate" onclick="gerarCurriculo()">✨ Gerar meu Currículo</button>
+        <div class="cv-linha"></div>
+        <div class="cv-sec" id="s-res"><h2 class="cv-st">Resumo</h2><p class="cv-txt" id="cv-res"></p></div>
+        <div class="cv-sec" id="s-exp"><h2 class="cv-st">Experiência</h2><div class="cv-txt pre" id="cv-exp"></div></div>
+        <div class="cv-sec" id="s-form"><h2 class="cv-st">Formação</h2><div class="cv-txt pre" id="cv-form"></div></div>
+        <div class="cv-sec" id="s-hab"><h2 class="cv-st">Habilidades</h2><div class="cv-tags" id="cv-hab"></div></div>
+        <div class="cv-sec" id="s-idi"><h2 class="cv-st">Idiomas</h2><div class="cv-tags" id="cv-idi"></div></div>
       </div>
     </main>
   </div>
+</div>
 
-  <div id="tela-loading" class="tela">
-    <div class="loading-wrap">
-      <div class="loading-orb"></div>
-      <h2 class="loading-titulo">Criando seu currículo<span class="dots"></span></h2>
-      <p class="loading-sub" id="loading-msg">Analisando suas informações…</p>
-    </div>
-  </div>
-
-  <div id="tela-resultado" class="tela">
-    <header class="resultado-header">
-      <div class="logo-mark small">Curricule<span>IA</span></div>
-      <div class="resultado-actions">
-        <button class="btn-refazer" onclick="voltarQuiz()">← Refazer</button>
-        <button class="btn-imprimir" onclick="imprimirCV()">⬇ Baixar PDF</button>
+<!-- MODAL PIX -->
+<div id="modal-pix" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <button class="modal-fechar" onclick="fecharModal()">✕</button>
+    <div class="modal-icon">💳</div>
+    <h2 class="modal-titulo">Baixar seu Currículo</h2>
+    <p class="modal-sub">Faça um Pix de <strong>R$ 4,99</strong> para liberar o download</p>
+    <div class="pix-box">
+      <div class="pix-label">Chave Pix (Telefone)</div>
+      <div class="pix-chave">
+        <span id="pix-key">(19) 99890-0045</span>
+        <button class="btn-copiar" onclick="copiarPix()">Copiar</button>
       </div>
-    </header>
-    <div class="resultado-layout">
-      <aside class="editor-panel">
-        <h3 class="editor-titulo">✏️ Ajuste seu currículo</h3>
-        <p class="editor-hint">Edite qualquer campo abaixo — o CV atualiza em tempo real</p>
-        <div class="editor-grupo"><label>Nome</label><input type="text" id="e-nome" oninput="sincronizar('nome', this.value)" /></div>
-        <div class="editor-grupo"><label>Cargo / Título</label><input type="text" id="e-cargo" oninput="sincronizar('cargo', this.value)" /></div>
-        <div class="editor-grupo"><label>E-mail</label><input type="text" id="e-email" oninput="sincronizar('email', this.value)" /></div>
-        <div class="editor-grupo"><label>Telefone</label><input type="text" id="e-telefone" oninput="sincronizar('telefone', this.value)" /></div>
-        <div class="editor-grupo"><label>Cidade</label><input type="text" id="e-cidade" oninput="sincronizar('cidade', this.value)" /></div>
-        <div class="editor-divider"></div>
-        <div class="editor-grupo"><label>Resumo Profissional</label><textarea id="e-resumo" rows="5" oninput="sincronizar('resumo', this.value)"></textarea></div>
-        <div class="editor-grupo"><label>Experiência</label><textarea id="e-experiencia" rows="7" oninput="sincronizar('experiencia', this.value)"></textarea></div>
-        <div class="editor-grupo"><label>Formação</label><textarea id="e-formacao" rows="4" oninput="sincronizar('formacao', this.value)"></textarea></div>
-        <div class="editor-grupo"><label>Habilidades (separadas por vírgula)</label><input type="text" id="e-habilidades" oninput="sincronizar('habilidades', this.value)" /></div>
-        <div class="editor-grupo"><label>Idiomas (separados por vírgula)</label><input type="text" id="e-idiomas" oninput="sincronizar('idiomas', this.value)" /></div>
-      </aside>
-      <main class="cv-preview-wrap">
-        <div class="preview-label">Pré-visualização</div>
-        <div class="cv-page" id="cv-page">
-          <div class="cv-topo">
-            <div class="cv-topo-info">
-              <h1 class="cv-nome" id="cv-nome">—</h1>
-              <p class="cv-cargo" id="cv-cargo">—</p>
-            </div>
-            <div class="cv-contato" id="cv-contato"></div>
-          </div>
-          <div class="cv-linha"></div>
-          <div class="cv-secao" id="cv-sec-resumo"><h2 class="cv-sec-titulo">Resumo</h2><p class="cv-texto" id="cv-resumo-txt"></p></div>
-          <div class="cv-secao" id="cv-sec-exp"><h2 class="cv-sec-titulo">Experiência</h2><div class="cv-texto pre" id="cv-exp-txt"></div></div>
-          <div class="cv-secao" id="cv-sec-form"><h2 class="cv-sec-titulo">Formação</h2><div class="cv-texto pre" id="cv-form-txt"></div></div>
-          <div class="cv-secao" id="cv-sec-hab"><h2 class="cv-sec-titulo">Habilidades</h2><div class="cv-tags" id="cv-hab-tags"></div></div>
-          <div class="cv-secao" id="cv-sec-idi"><h2 class="cv-sec-titulo">Idiomas</h2><div class="cv-tags" id="cv-idi-tags"></div></div>
-        </div>
-      </main>
     </div>
+    <div class="modal-steps">
+      <div class="modal-step"><span class="ms-num">1</span><span>Abra seu app do banco e faça um Pix de <strong>R$ 4,99</strong></span></div>
+      <div class="modal-step"><span class="ms-num">2</span><span>Envie o comprovante para nosso WhatsApp ou e-mail</span></div>
+      <div class="modal-step"><span class="ms-num">3</span><span>Após confirmação, seu PDF será liberado em até 30 minutos</span></div>
+    </div>
+    <div class="modal-contatos">
+      <a class="btn-wpp" href="https://wa.me/5519998900045?text=Ol%C3%A1!%20Acabei%20de%20pagar%20o%20Pix%20do%20Curr%C3%ADculeIA.%20Segue%20o%20comprovante!" target="_blank">💬 Enviar comprovante pelo WhatsApp</a>
+      <a class="btn-email" href="mailto:joaopedromeneses129@gmail.com?subject=Comprovante%20Curr%C3%ADculeIA&body=Ol%C3%A1!%20Segue%20o%20comprovante%20do%20pagamento." target="_blank">✉️ Enviar por e-mail</a>
+    </div>
+    <p class="modal-fine">Após confirmação você receberá o PDF em até 30 minutos.</p>
   </div>
+</div>
 
-  <script src="curricule_script.js"></script>
+<script src="curricule_script.js"></script>
 </body>
 </html>
